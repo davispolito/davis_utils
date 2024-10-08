@@ -1,0 +1,38 @@
+cmake_minimum_required(VERSION 3.15)
+project(davis_utils VERSION 2.2.0)
+set(CMAKE_CXX_STANDARD 17)
+include(CTest)
+add_definitions(-DJUCE_SILENCE_XCODE_15_LINKER_WARNING)
+option(DAVIS_ENABLE_TESTING "Enable testing for davis modules" ON)
+option(DAVIS_ENABLE_BENCHMARKS "Enable benchmarks for davis modules" OFF)
+option(DAVIS_ENABLE_EXAMPLES "Enable examples for davis modules" OFF)
+
+if(NOT (DAVIS_ENABLE_TESTING OR DAVIS_ENABLE_BENCHMARKS OR DAVIS_ENABLE_EXAMPLES))
+    # Add CMake utils
+    list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+    include(AddDiagnosticInfo)
+    include(SubprojectVersion)
+
+    if("${JUCE_MODULES_DIR}" STREQUAL "")
+        message(STATUS "Using modules outside of JUCE...")
+        include(SetupLib)
+    else()
+        message(STATUS "Adding JUCE modules...")
+        include(AddJUCEModules)
+    endif()
+else()
+    list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+    list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/test)
+
+    # Useful for testing with address sanitizer:
+    # set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -g")
+
+    if(DAVIS_ENABLE_TESTING)
+        enable_testing()
+        add_subdirectory(tests)
+    elseif(DAVIS_ENABLE_BENCHMARKS)
+        add_subdirectory(bench)
+    elseif(DAVIS_ENABLE_EXAMPLES)
+        add_subdirectory(examples)
+    endif()
+endif()
