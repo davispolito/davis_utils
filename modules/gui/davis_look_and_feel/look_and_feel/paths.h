@@ -18,7 +18,6 @@
 
 
 
-#include "BinaryData.h"
 #include <davis_core/davis_core.h>
 namespace davis {
     class Paths {
@@ -74,7 +73,7 @@ namespace davis {
             static const float kBuffer = (1.0f - kClockWidth) / 2.0f;
 
             Path path;
-            path.addPieSegment(kBuffer, kBuffer, kClockWidth, kClockWidth, 0.0f, kClockAngle - 2.0f * bitklavier::kPi,
+            path.addPieSegment(kBuffer, kBuffer, kClockWidth, kClockWidth, 0.0f, kClockAngle - 2.0f * davis::kPi,
                                0.0f);
             path.addLineSegment(Line<float>(0.0f, 0.0f, 0.0f, 0.0f), 0.2f);
             path.addLineSegment(Line<float>(1.0f, 1.0f, 1.0f, 1.0f), 0.2f);
@@ -428,9 +427,9 @@ namespace davis {
             path.addLineSegment(Line<float>(1.0f, 1.0f, 1.0f, 1.0f), 0.2f);
             float offset = 0.5f - kRadius;
             float diameter = 2.0f * kRadius;
-            path.addPieSegment(offset, offset, diameter, diameter, 0.0f, 2.0f * bitklavier::kPi, 0.5f);
+            path.addPieSegment(offset, offset, diameter, diameter, 0.0f, 2.0f * davis::kPi, 0.5f);
             for (int i = 0; i < kNumGearTeeth; ++i) {
-                float phase = 2.0f * i * bitklavier::kPi / kNumGearTeeth;
+                float phase = 2.0f * i * davis::kPi / kNumGearTeeth;
                 float x_offset = kRadius * cosf(phase);
                 float y_offset = kRadius * sinf(phase);
                 Line<float> line(0.5f + x_offset, 0.5f + y_offset,
@@ -451,7 +450,7 @@ namespace davis {
             path.addLineSegment(Line<float>(0.0f, 0.0f, 0.0f, 0.0f), 0.2f);
             path.addLineSegment(Line<float>(1.0f, 1.0f, 1.0f, 1.0f), 0.2f);
             float diameter = 2.0f * kRadius;
-            path.addPieSegment(kGlassOffset, kGlassOffset, diameter, diameter, 0.0f, 2.0f * bitklavier::kPi,
+            path.addPieSegment(kGlassOffset, kGlassOffset, diameter, diameter, 0.0f, 2.0f * davis::kPi,
                                1.0f - kWidthRatio);
 
             float line_width = kWidthRatio * kRadius;
@@ -612,7 +611,7 @@ namespace davis {
             static constexpr float kEndpointStrokeWidth = 0.08f;
             static constexpr float kEndpointRadius = 0.09f;
             static constexpr int kNumCurvePoints = 16;
-            static constexpr float kFullRadians = bitklavier::kPi * 2.0f;
+            static constexpr float kFullRadians = davis::kPi * 2.0f;
             static constexpr float kBumpIn = kEndpointRadius;
             static constexpr float kAdjustXIn = kBumpIn + kEndpointRadius / 2.0f;
 
@@ -626,7 +625,7 @@ namespace davis {
             for (int i = 0; i < kNumCurvePoints; ++i) {
                 float t = (1.0f + i) / kNumCurvePoints;
                 float x = t * end_x + (1.0f - t) * start_x;
-                float y_t = sinf((t - 0.5f) * bitklavier::kPi) * 0.5f + 0.5f;
+                float y_t = sinf((t - 0.5f) * davis::kPi) * 0.5f + 0.5f;
                 float y = y_t * end_y + (1.0f - y_t) * start_y;
                 curve.lineTo(x, y);
             }

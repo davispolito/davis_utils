@@ -21,8 +21,6 @@
 #include <davis_core/davis_core.h>
 #endif
 #include <juce_core/juce_core.h>
-#include <chowdsp_dsp_data_structures/chowdsp_dsp_data_structures.h>
-#include <chowdsp_core/chowdsp_core.h>
 #include <juce_opengl/juce_opengl.h>
 
 #include <map>
@@ -125,7 +123,6 @@ struct OpenGlWrapper {
 
 
 
-  moodycamel::ConcurrentQueue<glInitAction> initOpenGlComp { 20 };
   //moodycamel::ReaderWriterQueue
   std::vector<Component*> init_comp;
   OpenGLContext& context;

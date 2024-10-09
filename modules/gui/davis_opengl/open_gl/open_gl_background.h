@@ -20,43 +20,52 @@
 #include "open_gl_component.h"
 
 #include <mutex>
+namespace davis {
+    class OpenGlBackground {
+    public:
+        OpenGlBackground();
 
-class OpenGlBackground {
-  public:
-    OpenGlBackground();
-    virtual ~OpenGlBackground();
+        virtual ~OpenGlBackground();
 
-    void updateBackgroundImage(juce::Image background);
-    virtual void init(OpenGlWrapper& open_gl);
-    virtual void render(OpenGlWrapper& open_gl);
-    virtual void destroy(OpenGlWrapper& open_gl);
+        void updateBackgroundImage(juce::Image background);
 
-    void lock() { mutex_.lock(); }
-    void unlock() { mutex_.unlock(); }
+        virtual void init(OpenGlWrapper &open_gl);
 
-    juce::OpenGLShaderProgram* shader() { return image_shader_; }
-    juce::OpenGLShaderProgram::Uniform* texture_uniform() { return texture_uniform_.get(); }
+        virtual void render(OpenGlWrapper &open_gl);
 
-    void bind(juce::OpenGLContext& open_gl_context);
-    void enableAttributes(juce::OpenGLContext& open_gl_context);
-    void disableAttributes(juce::OpenGLContext& open_gl_context);
+        virtual void destroy(OpenGlWrapper &open_gl);
 
-  private:
-    juce::OpenGLShaderProgram* image_shader_;
-    std::unique_ptr<juce::OpenGLShaderProgram::Uniform> texture_uniform_;
-    std::unique_ptr<juce::OpenGLShaderProgram::Attribute> position_;
-    std::unique_ptr<juce::OpenGLShaderProgram::Attribute> texture_coordinates_;
+        void lock() { mutex_.lock(); }
 
-    float vertices_[16];
+        void unlock() { mutex_.unlock(); }
 
-    std::mutex mutex_;
-    juce::OpenGLTexture background_;
-    bool new_background_;
-    juce::Image background_image_;
+        juce::OpenGLShaderProgram *shader() { return image_shader_; }
 
-    GLuint vertex_buffer_;
-    GLuint triangle_buffer_;
+        juce::OpenGLShaderProgram::Uniform *texture_uniform() { return texture_uniform_.get(); }
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlBackground)
-};
+        void bind(juce::OpenGLContext &open_gl_context);
 
+        void enableAttributes(juce::OpenGLContext &open_gl_context);
+
+        void disableAttributes(juce::OpenGLContext &open_gl_context);
+
+    private:
+        juce::OpenGLShaderProgram *image_shader_;
+        std::unique_ptr<juce::OpenGLShaderProgram::Uniform> texture_uniform_;
+        std::unique_ptr<juce::OpenGLShaderProgram::Attribute> position_;
+        std::unique_ptr<juce::OpenGLShaderProgram::Attribute> texture_coordinates_;
+
+        float vertices_[16];
+
+        std::mutex mutex_;
+        juce::OpenGLTexture background_;
+        bool new_background_;
+        juce::Image background_image_;
+
+        GLuint vertex_buffer_;
+        GLuint triangle_buffer_;
+
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlBackground)
+    };
+
+}

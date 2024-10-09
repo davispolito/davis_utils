@@ -46,5 +46,4 @@ BEGIN_JUCE_MODULE_DECLARATION
 #include "open_gl/open_gl_image_component.h"
 #include "open_gl/open_gl_multi_image.h"
 #include "open_gl/open_gl_multi_quad.h"
-#include "open_gl/overlay.h"
 #include "open_gl/shaders.h"

@@ -18,25 +18,26 @@
 
 
 #include "default_look_and_feel.h"
+namespace davis {
+    class CurveLookAndFeel : public DefaultLookAndFeel {
+    public:
+        virtual ~CurveLookAndFeel() {}
 
-class CurveLookAndFeel : public DefaultLookAndFeel {
-  public:
-    virtual ~CurveLookAndFeel() { }
+        void drawRotarySlider(juce::Graphics &g, int x, int y, int width, int height,
+                              float slider_t, float start_angle, float end_angle,
+                              juce::Slider &slider) override;
 
-    void drawRotarySlider(Graphics& g, int x, int y, int width, int height,
-                          float slider_t, float start_angle, float end_angle,
-                          Slider& slider) override;
+        void drawCurve(juce::Graphics &g, juce::Slider &slider, int x, int y, int width, int height, bool active, bool bipolar);
 
-    void drawCurve(Graphics& g, Slider& slider, int x, int y, int width, int height, bool active, bool bipolar);
+        static CurveLookAndFeel *instance() {
+            static CurveLookAndFeel instance;
+            return &instance;
+        }
 
-    static CurveLookAndFeel* instance() {
-      static CurveLookAndFeel instance;
-      return &instance;
-    }
+    private:
+        CurveLookAndFeel();
 
-  private:
-    CurveLookAndFeel();
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CurveLookAndFeel)
+    };
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CurveLookAndFeel)
-};
-
+}

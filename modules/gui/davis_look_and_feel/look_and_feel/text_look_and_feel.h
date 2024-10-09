@@ -18,32 +18,33 @@
 
 
 #include "default_look_and_feel.h"
-
-class TextLookAndFeel : public DefaultLookAndFeel {
-  public:
-    virtual ~TextLookAndFeel() { }
+namespace davis {
+    class TextLookAndFeel : public DefaultLookAndFeel {
+    public:
+        virtual ~TextLookAndFeel() {}
 
 //    void drawRotarySlider(juce::Graphics& g, int x, int y, int width, int height,
 //                          float slider_t, float start_angle, float end_angle,
 //                          juce::Slider& slider) override;
 
-    void drawToggleButton(juce::Graphics& g, juce::ToggleButton& button, bool hover, bool is_down) override;
+        void drawToggleButton(juce::Graphics &g, juce::ToggleButton &button, bool hover, bool is_down) override;
 
-    void drawTickBox(juce::Graphics& g, juce::Component& component, float x, float y, float w, float h, bool ticked,
-                     bool enabled, bool mouse_over, bool button_down) override;
+        void drawTickBox(juce::Graphics &g, juce::Component &component, float x, float y, float w, float h, bool ticked,
+                         bool enabled, bool mouse_over, bool button_down) override;
 
-    void drawLabel(juce::Graphics& g, juce::Label& label) override;
+        void drawLabel(juce::Graphics &g, juce::Label &label) override;
 
-    void drawComboBox(juce::Graphics& g, int width, int height, bool is_down,
-                      int button_x, int button_y, int button_w, int button_h, juce::ComboBox& box) override;
+        void drawComboBox(juce::Graphics &g, int width, int height, bool is_down,
+                          int button_x, int button_y, int button_w, int button_h, juce::ComboBox &box) override;
 
-    static TextLookAndFeel* instance() {
-      static TextLookAndFeel instance;
-      return &instance;
-    }
+        static TextLookAndFeel *instance() {
+            static TextLookAndFeel instance;
+            return &instance;
+        }
 
-  private:
-    TextLookAndFeel();
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextLookAndFeel)
-};
+    private:
+        TextLookAndFeel();
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(TextLookAndFeel)
+    };
 
+}

@@ -2,6 +2,8 @@ juce_add_modules(
     ALIAS_NAMESPACE davis
 
     ${PROJECT_SOURCE_DIR}/modules/common/davis_core
+        ${PROJECT_SOURCE_DIR}/modules/gui/davis_look_and_feel
+        ${PROJECT_SOURCE_DIR}/modules/gui/davis_opengl
 #    ${PROJECT_SOURCE_DIR}/modules/common/chowdsp_data_structures
 #    ${PROJECT_SOURCE_DIR}/modules/common/chowdsp_json
 #    ${PROJECT_SOURCE_DIR}/modules/common/chowdsp_listeners

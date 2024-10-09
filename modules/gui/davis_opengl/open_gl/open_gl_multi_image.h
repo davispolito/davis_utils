@@ -19,96 +19,98 @@
 #include "open_gl_component.h"
 
 #include <mutex>
+namespace  davis {
 
-class OpenGlMultiImage : public OpenGlComponent
-{
-public:
-  static constexpr int kNumVertices = 4;
-  static constexpr int kNumFloatsPerVertex = 4;
-  static constexpr int kNumFloatsPerQuad = kNumVertices * kNumFloatsPerVertex;
-  static constexpr int kNumIndicesPerQuad = 6;
+    class OpenGlMultiImage : public OpenGlComponent {
+    public:
+        static constexpr int kNumVertices = 4;
+        static constexpr int kNumFloatsPerVertex = 4;
+        static constexpr int kNumFloatsPerQuad = kNumVertices * kNumFloatsPerVertex;
+        static constexpr int kNumIndicesPerQuad = 6;
 
-  OpenGlMultiImage(int max_images);
-  virtual ~OpenGlMultiImage();
+        OpenGlMultiImage(int max_images);
 
-  virtual void init(OpenGlWrapper &open_gl) override;
-  virtual void render(OpenGlWrapper &open_gl, bool animate) override;
-  virtual void destroy(OpenGlWrapper &open_gl) override;
+        virtual ~OpenGlMultiImage();
 
-  void paintBackground(juce::Graphics &g) override {}
+        virtual void init(OpenGlWrapper &open_gl) override;
 
-  void resized() override
-  {
-    OpenGlComponent::resized();
-    dirty_ = true;
-  }
+        virtual void render(OpenGlWrapper &open_gl, bool animate) override;
 
-  void lock() { mutex_.lock(); }
-  void unlock() { mutex_.unlock(); }
+        virtual void destroy(OpenGlWrapper &open_gl) override;
 
-  void setOwnImage(juce::Image &image)
-  {
-    mutex_.lock();
-    owned_image_ = std::make_unique<juce::Image>(image);
-    setImage(owned_image_.get());
-    mutex_.unlock();
-  }
+        void paintBackground(juce::Graphics &g) override {}
 
-  void setImage(juce::Image *image)
-  {
-    image_ = image;
-    image_width_ = image->getWidth();
-    image_height_ = image->getHeight();
-  }
+        void resized() override {
+            OpenGlComponent::resized();
+            dirty_ = true;
+        }
 
-  void setNumQuads(int num_quads) { num_quads_ = num_quads; }
+        void lock() { mutex_.lock(); }
 
-  void setColor(juce::Colour color) { color_ = color; }
+        void unlock() { mutex_.unlock(); }
 
-  inline void setQuad(int i, float x, float y, float w, float h)
-  {
-    int index = kNumFloatsPerQuad * i;
-    data_[index] = x;
-    data_[index + 1] = y;
-    data_[index + 4] = x;
-    data_[index + 5] = y + h;
-    data_[index + 8] = x + w;
-    data_[index + 9] = y + h;
-    data_[index + 12] = x + w;
-    data_[index + 13] = y;
-    dirty_ = true;
-  }
+        void setOwnImage(juce::Image &image) {
+            mutex_.lock();
+            owned_image_ = std::make_unique<juce::Image>(image);
+            setImage(owned_image_.get());
+            mutex_.unlock();
+        }
 
-  int getImageWidth() { return image_width_; }
-  int getImageHeight() { return image_height_; }
+        void setImage(juce::Image *image) {
+            image_ = image;
+            image_width_ = image->getWidth();
+            image_height_ = image->getHeight();
+        }
 
-  void setAdditive(bool additive) { additive_blending_ = additive; }
+        void setNumQuads(int num_quads) { num_quads_ = num_quads; }
 
-private:
-  std::mutex mutex_;
-  juce::Image *image_;
-  int image_width_;
-  int image_height_;
-  std::unique_ptr<juce::Image> owned_image_;
-  juce::Colour color_;
-  juce::OpenGLTexture texture_;
+        void setColor(juce::Colour color) { color_ = color; }
 
-  int max_quads_;
-  int num_quads_;
+        inline void setQuad(int i, float x, float y, float w, float h) {
+            int index = kNumFloatsPerQuad * i;
+            data_[index] = x;
+            data_[index + 1] = y;
+            data_[index + 4] = x;
+            data_[index + 5] = y + h;
+            data_[index + 8] = x + w;
+            data_[index + 9] = y + h;
+            data_[index + 12] = x + w;
+            data_[index + 13] = y;
+            dirty_ = true;
+        }
 
-  bool dirty_;
-  bool additive_blending_;
+        int getImageWidth() { return image_width_; }
 
-  std::unique_ptr<float[]> data_;
-  std::unique_ptr<int[]> indices_;
+        int getImageHeight() { return image_height_; }
 
-  juce::OpenGLShaderProgram *image_shader_;
-  std::unique_ptr<juce::OpenGLShaderProgram::Uniform> color_uniform_;
-  std::unique_ptr<juce::OpenGLShaderProgram::Attribute> position_;
-  std::unique_ptr<juce::OpenGLShaderProgram::Attribute> texture_coordinates_;
+        void setAdditive(bool additive) { additive_blending_ = additive; }
 
-  GLuint vertex_buffer_;
-  GLuint indices_buffer_;
+    private:
+        std::mutex mutex_;
+        juce::Image *image_;
+        int image_width_;
+        int image_height_;
+        std::unique_ptr<juce::Image> owned_image_;
+        juce::Colour color_;
+        juce::OpenGLTexture texture_;
 
-  JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlMultiImage)
-};
+        int max_quads_;
+        int num_quads_;
+
+        bool dirty_;
+        bool additive_blending_;
+
+        std::unique_ptr<float[]> data_;
+        std::unique_ptr<int[]> indices_;
+
+        juce::OpenGLShaderProgram *image_shader_;
+        std::unique_ptr<juce::OpenGLShaderProgram::Uniform> color_uniform_;
+        std::unique_ptr<juce::OpenGLShaderProgram::Attribute> position_;
+        std::unique_ptr<juce::OpenGLShaderProgram::Attribute> texture_coordinates_;
+
+        GLuint vertex_buffer_;
+        GLuint indices_buffer_;
+
+        JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(OpenGlMultiImage)
+    };
+}
